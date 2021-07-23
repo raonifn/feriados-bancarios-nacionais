@@ -25,8 +25,31 @@ function split {
   echo
 }
 
+function publish {
+  git add jsons
+  git commit -m 'Updating' || true
+  git push
+
+  tmp=$(mktemp -d)
+  cp -r jsons $tmp
+
+  git checkout gh-pages
+  mkdir -p $dir/feriados
+  cp $tmp/* $dir/feriados
+
+  git add feriados
+  git commit -m 'Updating' || true
+  git push
+
+  git checkout master
+
+}
+
 echo 'Fetching data from anbima'
-fetch
+# fetch
 
 echo 'Splitting data groupped by year'
-split
+# split
+
+echo 'Publishing to Pages'
+publish

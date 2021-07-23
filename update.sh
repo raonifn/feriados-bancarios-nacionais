@@ -41,7 +41,7 @@ function publish {
   git commit -m 'Updating' || true
   git push
 
-  git checkout master
+  git checkout main
 
 }
 

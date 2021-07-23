@@ -5,7 +5,7 @@ dir=$(dirname $0)
 mkdir -p $dir/build $dir/jsons
 
 function fetch {
-  curl https://www.anbima.com.br/feriados/arqs/feriados_nacionais.xls -o $dir/build/feriados.xls
+  curl -s https://www.anbima.com.br/feriados/arqs/feriados_nacionais.xls -o $dir/build/feriados.xls
 
   #from gnumeric
   ssconvert $dir/build/feriados.xls $dir/build/feriados.csv
@@ -19,9 +19,14 @@ function fetch {
 function split {
   while read line; do
     year=$(echo -n $line | jq '.[0].year')
-    echo $year
+    echo -n "$year - "
+    echo -n $line | jq > $dir/jsons/$year.json
   done < $dir/build/feriados.json
+  echo
 }
 
-# fetch
+echo 'Fetching data from anbima'
+fetch
+
+echo 'Splitting data groupped by year'
 split

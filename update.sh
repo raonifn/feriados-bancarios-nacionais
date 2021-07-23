@@ -35,7 +35,7 @@ function publish {
 
   git checkout gh-pages
   mkdir -p $dir/feriados
-  cp $tmp/* $dir/feriados
+  cp $tmp/jsons/* $dir/feriados
 
   git add feriados
   git commit -m 'Updating' || true
